@@ -17,7 +17,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "📥 Clonando código fuente desde GitHub..."
-                git branch: 'develop', credentialsId: GITHUB_CREDENTIALS, url: GITHUB_REPO
+                git branch: 'main', credentialsId: GITHUB_CREDENTIALS, url: GITHUB_REPO
             }
         }
         stage('Build Docker Image') {
