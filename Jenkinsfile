@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Login to Nexus') {
             steps {
-                echo "🔑 Iniciando sesión en Nexus..."
+                echo "🔑 Iniciando sesión en Nexus para su verificación..."
                 bat "docker login -u ${NEXUS_USER} -p '${NEXUS_PASSWORD}' ${DOCKER_REGISTRY}"
             }
         }
