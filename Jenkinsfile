@@ -23,19 +23,19 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "🔨 Construyendo imagen Docker..."
-                sh "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                bat "docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} ."
             }
         }
         stage('Login to Nexus') {
             steps {
                 echo "🔑 Iniciando sesión en Nexus..."
-                sh "docker login -u ${NEXUS_USER} -p '${NEXUS_PASSWORD}' ${DOCKER_REGISTRY}"
+                bat "docker login -u ${NEXUS_USER} -p '${NEXUS_PASSWORD}' ${DOCKER_REGISTRY}"
             }
         }
         stage('Push to Nexus') {
             steps {
                 echo "📤 Subiendo imagen a Nexus..."
-                sh "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
+                bat "docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
             }
         }
         stage('Deploy to Server') {
@@ -43,7 +43,7 @@ pipeline {
                 echo "🚀 Desplegando aplicación en el servidor..."
                 script {
                     // Ejecutar comandos SSH con autenticación por contraseña utilizando sshpass
-                    sh """
+                    bat """
                     sshpass -p '${SERVER_PASSWORD}' ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} << 'ENDSSH'
                     docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     docker stop ${DOCKER_IMAGE} || true
