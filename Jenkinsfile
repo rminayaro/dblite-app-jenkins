@@ -8,7 +8,7 @@ pipeline {
         SERVER_IP = "64.23.161.84"
         SSH_CREDENTIALS = "ssh-server-credentials"
         GITHUB_CREDENTIALS = "github-credentials"
-        GITHUB_REPO = "https://github.com/rminayaro/Api-1.git"
+        GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git"
         NEXUS_USER = "admin"
         NEXUS_PASSWORD = "123456"
         SERVER_PASSWORD = "Ramon2Minaya" // Agrega la contraseña del servidor aquí
