@@ -6,12 +6,11 @@ pipeline {
         DOCKER_TAG = "latest"
         SERVER_USER = "root"
         SERVER_IP = "64.23.161.84"
-        SSH_CREDENTIALS = "ssh-server-credentials"
+        SSH_CREDENTIALS = "ssh-server-credentials" // Usamos el nombre del credential SSH
         GITHUB_CREDENTIALS = "github-credentials"
         GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git"
         NEXUS_USER = "admin"
         NEXUS_PASSWORD = "123456"
-        SERVER_PASSWORD = "Ramon2Minaya" // Agrega la contraseña del servidor aquí
     }
     stages {
         stage('Checkout') {
@@ -42,15 +41,17 @@ pipeline {
             steps {
                 echo "🚀 Desplegando aplicación en el servidor..."
                 script {
-                    // Ejecutar comandos SSH con autenticación por contraseña utilizando sshpass
-                    bat """
-                    sshpass -p '${SERVER_PASSWORD}' ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} "
-                    docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} && 
-                    docker stop ${DOCKER_IMAGE} || true && 
-                    docker rm -f ${DOCKER_IMAGE} || true && 
-                    docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 3030:3030 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                    "
-                    """
+                    // Usar sshagent para autenticarse con la clave SSH almacenada en Jenkins
+                    sshagent(credentials: [SSH_CREDENTIALS]) {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} "
+                        docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} &&
+                        docker stop ${DOCKER_IMAGE} || true &&
+                        docker rm -f ${DOCKER_IMAGE} || true &&
+                        docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 3030:3030 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                        "
+                        """
+                    }
                 }
             }
         }
