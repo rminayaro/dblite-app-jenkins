@@ -6,7 +6,7 @@ pipeline {
         DOCKER_TAG = "latest"
         SERVER_USER = "root"
         SERVER_IP = "64.23.161.84"
-        SSH_CREDENTIALS = "ssh-server-credentials" // Usamos el nombre del credential SSH
+        SSH_CREDENTIALS = "ssh-server-credentials1" // Usamos el nombre del credential SSH
         GITHUB_CREDENTIALS = "github-credentials"
         GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git"
         NEXUS_USER = "admin"
