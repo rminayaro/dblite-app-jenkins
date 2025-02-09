@@ -38,24 +38,21 @@ pipeline {
             }
         }
         stage('Deploy to Server') {
-            steps {
-                echo "🚀 Desplegando aplicación en el servidor..."
-                script {
-                    // Usar sshagent para autenticarse con la clave SSH almacenada en Jenkins
-                    sshagent(credentials: [SSH_CREDENTIALS]) {
-                        sh """
-                        ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} "
-                        docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} &&
-                        docker stop ${DOCKER_IMAGE} || true &&
-                        docker rm -f ${DOCKER_IMAGE} || true &&
-                        docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 3030:3030 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
-                        "
-                        """
-                    }
-                }
-            }
+    steps {
+        echo "🚀 Desplegando aplicación en el servidor..."
+        script {
+            // Usar sshpass para autenticarse con la contraseña SSH en lugar de ssh-agent
+            sh """
+            sshpass -p '${SERVER_PASSWORD}' ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} "
+            docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} &&
+            docker stop ${DOCKER_IMAGE} || true &&
+            docker rm -f ${DOCKER_IMAGE} || true &&
+            docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 3030:3030 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+            "
+            """
         }
     }
+}
     post {
         success {
             echo "🎉 Despliegue exitoso de Rust API!"
