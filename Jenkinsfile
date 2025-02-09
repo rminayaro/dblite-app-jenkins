@@ -11,7 +11,7 @@ pipeline {
         GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git"
         NEXUS_USER = "admin"
         NEXUS_PASSWORD = "123456"
-        PLINK_PATH = "C:\\path\\to\\plink.exe" // Ruta donde tienes el archivo plink.exe
+        PLINK_PATH = "C:\\Program Files\\PuTTY\\plink.exe" // Ruta correcta de plink.exe
     }
     stages {
         stage('Checkout') {
