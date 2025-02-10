@@ -1,19 +1,19 @@
 pipeline {
     agent any
     environment {
-        DOCKER_REGISTRY = "localhost:8082"
-        DOCKER_IMAGE = "dblite_app"
-        DOCKER_TAG = "latest"
-        SERVER_USER = "root"
-        SERVER_IP = "64.23.161.84"
-        SERVER_PASSWORD = "Ramon2Minaya" // Contraseña del servidor
-        GITHUB_CREDENTIALS = "github-credentials"
-        GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git"
-        NEXUS_USER = "admin"
-        NEXUS_PASSWORD = "123456"
-        PLINK_PATH = "\"C:\\Program Files\\PuTTY\\plink.exe\"" // Ruta correcta de plink.exe con comillas dobles
+        DOCKER_REGISTRY = "localhost:8082"           // URL de tu registro Docker (Nexus)
+        DOCKER_IMAGE = "dblite_app"                  // Nombre de la imagen
+        DOCKER_TAG = "latest"                        // Etiqueta de la imagen Docker
+        SERVER_USER = "root"                         // Usuario en el servidor remoto
+        SERVER_IP = "64.23.161.84"                  // Dirección IP del servidor
+        SERVER_PASSWORD = "Ramon2Minaya"            // Contraseña del servidor
+        GITHUB_CREDENTIALS = "github-credentials"   // Credenciales de GitHub
+        GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git" // URL del repositorio GitHub
+        NEXUS_USER = "admin"                        // Usuario Nexus
+        NEXUS_PASSWORD = "123456"                   // Contraseña Nexus
+        PLINK_PATH = "\"C:\\Program Files\\PuTTY\\plink.exe\"" // Ruta correcta de plink.exe
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
