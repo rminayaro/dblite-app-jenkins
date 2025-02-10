@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo "📥 Clonando código fuente desde GitHub..."
+                echo "📥 Clonando código   fuente desde GitHub..."
                 git branch: 'main', credentialsId: GITHUB_CREDENTIALS, url: GITHUB_REPO
             }
         }
