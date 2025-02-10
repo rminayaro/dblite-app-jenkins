@@ -2,13 +2,13 @@ pipeline {
     agent any
     environment {
         DOCKER_REGISTRY = "localhost:8082"
-        DOCKER_IMAGE = "actix_web_api"
+        DOCKER_IMAGE = "dblite_app"
         DOCKER_TAG = "latest"
         SERVER_USER = "root"
         SERVER_IP = "64.23.161.84"
         SERVER_PASSWORD = "Ramon2Minaya" // Contraseña del servidor
         GITHUB_CREDENTIALS = "github-credentials"
-        GITHUB_REPO = "https://github.com/rminayaro/actix_web_api-jenkins.git"
+        GITHUB_REPO = "https://github.com/rminayaro/dblite-app-jenkins.git"
         NEXUS_USER = "admin"
         NEXUS_PASSWORD = "123456"
         PLINK_PATH = "\"C:\\Program Files\\PuTTY\\plink.exe\"" // Ruta correcta de plink.exe con comillas dobles
@@ -26,8 +26,8 @@ pipeline {
             steps {
                 script {
                     def branchName = env.BRANCH_NAME
-                    if (branchName == 'main' || branchName == 'develop') {
-                        error("❌ No se puede desplegar automáticamente en '${branchName}'. Solo mediante Pull Request.")
+                    if (branchName == 'main') {
+                        error("❌ No se puede desplegar automáticamente en 'main'. Solo mediante Pull Request.")
                     } else {
                         echo "✅ Ejecutando en la rama '${branchName}', se permite el despliegue."
                     }
@@ -44,7 +44,7 @@ pipeline {
 
         stage('Login to Nexus') {
             steps {
-                echo "🔑 Iniciando sesión en Nexus para su verificación..."
+                echo "🔑 Iniciando sesión en Nexus..."
                 bat "docker login -u ${NEXUS_USER} -p '${NEXUS_PASSWORD}' ${DOCKER_REGISTRY}"
             }
         }
