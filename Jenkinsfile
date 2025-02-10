@@ -17,6 +17,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "📥 Clonando código fuente desde GitHub el mejor..."
+
                 git branch: 'main', credentialsId: GITHUB_CREDENTIALS, url: GITHUB_REPO
             }
         }
@@ -44,10 +45,10 @@ pipeline {
                 script {
                     // Usar plink para conectarse al servidor remoto y ejecutar comandos Docker
                     bat """
-                        ${PLINK_PATH} -batch -ssh ${SERVER_USER}@${SERVER_IP} -pw ${SERVER_PASSWORD} -o StrictHostKeyChecking=no ^
-                        "docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} && ^
-                        docker stop ${DOCKER_IMAGE} || true && ^
-                        docker rm -f ${DOCKER_IMAGE} || true && ^
+                        ${PLINK_PATH} -batch -ssh ${SERVER_USER}@${SERVER_IP} -pw ${SERVER_PASSWORD} -o StrictHostKeyChecking=no ^ 
+                        "docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} && ^ 
+                        docker stop ${DOCKER_IMAGE} || true && ^ 
+                        docker rm -f ${DOCKER_IMAGE} || true && ^ 
                         docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 3030:3030 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
                     """
                 }
